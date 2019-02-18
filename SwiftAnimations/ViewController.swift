@@ -119,15 +119,22 @@ class ViewController: UIViewController {
             stackView?.subviews.forEach({ (imageView) in
                 imageView.transform = .identity
             })
-        }, completion: nil)
-        containerView.removeFromSuperview()
+            
+            self.containerView.transform = self.containerView.transform.translatedBy(x: 0, y: 50)
+            self.containerView.alpha = 0
+            
+        }, completion: { (_) in
+            self.containerView.removeFromSuperview()
+        })
+        
     }
     
     fileprivate func handleGesturesLongPressedChanged(gesture: UILongPressGestureRecognizer)
     {
         let pressedPosition = gesture.location(in: self.containerView)
+        let fixedYposition = CGPoint(x: pressedPosition.x, y: self.containerView.frame.height/2)
         
-        let hitView = containerView.hitTest(pressedPosition, with: nil)
+        let hitView = containerView.hitTest(fixedYposition, with: nil)
 
         if hitView is UIImageView
         {
